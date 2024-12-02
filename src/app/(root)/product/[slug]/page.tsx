@@ -1,3 +1,9 @@
+import React from 'react'
+
+export default function ProductPage() {
+  return <div>ProductPage</div>
+}
+
 /*
 //price,images는 빼고 책으로 넣을 예정
 import { notFound } from 'next/navigation'

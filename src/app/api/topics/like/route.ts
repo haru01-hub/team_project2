@@ -1,4 +1,6 @@
-import connectMongoDB, { Topic } from '@/src/lib/mongodb'
+// import connectMongoDB, { Topic } from '@/src/lib/mongodb'
+import connectMongoDB from '@/src/lib/mongodb'
+import Topic from '@/src/models/topic'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
