@@ -1,47 +1,87 @@
-// import connectMongoDB, { Topic } from '@/src/lib/mongodb'
-import connectMongoDB from '@/src/lib/mongodb'
-import Topic from '@/src/models/topic'
-import { NextRequest, NextResponse } from 'next/server'
+// import { createClient } from '@supabase/supabase-js'
+// import { NextResponse } from 'next/server'
 
-export async function POST(request: NextRequest) {
-  try {
-    const { topicId, userId } = await request.json() // 클라이언트에서 전달받은 topicId와 userId
-    if (!topicId || !userId) {
-      console.error('Topic ID and User ID are required')
-      return NextResponse.json(
-        { message: 'Topic ID and User ID are required' },
-        { status: 400 }
-      )
-    }
+// // import { createServerComponentSupabaseClient } from '@supabase/auth-helpers-nextjs';
 
-    await connectMongoDB()
-    console.log('MongoDB connected')
+// // const supabase = createServerComponentSupabaseClient({
+// //   supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL!,
+// //   supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+// // })
 
-    // topicId에 해당하는 토픽 찾기
-    const topic = await Topic.findById(topicId)
-    if (!topic) {
-      console.error('Topic not found:', topicId)
-      return NextResponse.json({ message: 'Topic not found' }, { status: 404 })
-    }
+// const supabase = createClient(
+//   'https://gtaewptzdtmkojkuviej.supabase.co',
+//   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd0YWV3cHR6ZHRta29qa3V2aWVqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI3NjM3MTQsImV4cCI6MjA0ODMzOTcxNH0.ELJaLFz7BTPTcmHl-LbN53vj2jwRl2Bu8KX5IKfpFuw'
+// )
 
-    // 이미 좋아요를 눌렀는지 확인
-    if (topic.likedBy.includes(userId)) {
-      return NextResponse.json({ likes: topic.likes }, { status: 200 })
-    }
+// export async function POST(request: Request) {
+//   const { topic_id, user_id } = await request.json()
 
-    // 좋아요 수 증가 및 likedBy 배열에 사용자 ID 추가
-    topic.likes += 1
-    topic.likedBy.push(userId)
-    await topic.save()
+//   // 사용자가 이미 하트를 눌렀는지 확인
+//   const { data: existingLike, error: checkError } = await supabase
+//     .from('likes')
+//     .select('*')
+//     .eq('user_id', user_id)
+//     .eq('topic_id', topic_id)
+//     .single()
 
-    console.log('likes updated:', topic.likes)
+//   if (checkError && checkError.code !== 'PGRST116') {
+//     return NextResponse.json({ error: checkError.message }, { status: 500 })
+//   }
 
-    return NextResponse.json({ likes: topic.likes }, { status: 200 })
-  } catch (error) {
-    console.error('Error in POST /api/topics/like:', error)
-    return NextResponse.json(
-      { message: 'Internal server error' },
-      { status: 500 }
-    )
+//   if (existingLike) {
+//     return NextResponse.json(
+//       { error: '이미 하트를 눌렀습니다.' },
+//       { status: 400 }
+//     )
+//   }
+
+//   // 하트 추가
+//   const { error } = await supabase.from('likes').insert([{ user_id, topic_id }])
+
+//   if (error) {
+//     return NextResponse.json({ error: error.message }, { status: 500 })
+//   }
+
+//   return NextResponse.json({ message: '하트가 추가되었습니다.' })
+// }
+
+import { createServerComponentSupabaseClient } from '@supabase/auth-helpers-nextjs'
+import { NextResponse } from 'next/server'
+
+export async function POST(request: Request) {
+  const supabase = createServerComponentSupabaseClient()
+  const { topic_id } = await request.json()
+
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser()
+  if (authError || !user) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
+
+  const { data: existingLike, error: likeError } = await supabase
+    .from('likes')
+    .select('*')
+    .eq('topic_id', topic_id)
+    .eq('user_id', user.id)
+    .single()
+
+  if (likeError && likeError.code !== 'PGRST116') {
+    return NextResponse.json({ error: likeError.message }, { status: 400 })
+  }
+
+  if (existingLike) {
+    return NextResponse.json({ error: 'Already liked' }, { status: 400 })
+  }
+
+  const { error } = await supabase
+    .from('likes')
+    .insert({ topic_id, user_id: user.id })
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 })
+  }
+
+  return NextResponse.json({ message: 'Like added successfully' })
 }

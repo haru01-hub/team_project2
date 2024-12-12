@@ -1,4 +1,4 @@
-import { signIn } from '@/src/auth'
+import { signIn } from 'src/auth'
 import Image from 'next/image'
 export default function SignInButton() {
   return (

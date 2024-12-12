@@ -5,7 +5,8 @@ import { drizzle } from 'drizzle-orm/node-postgres'
 import { Client } from 'pg'
 
 import * as schema from './schema'
-import SampleData from '@/src/lib/sample-data'
+import sampleData from 'src/lib/sample-data'
+// import SampleData from '@/src/lib/sample-data'
 
 loadEnvConfig(cwd())
 
@@ -21,7 +22,7 @@ const main = async () => {
 
     const resProducts = await db
       .insert(schema.products)
-      .values(SampleData.products)
+      .values(sampleData.products)
       .returning()
     console.log({ resProducts })
     await client.end()

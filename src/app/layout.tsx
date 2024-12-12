@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
-import Header from '@/src/components/Header'
-import { NextAuthProvider } from '@/src/components/Providers'
+import Header from 'src/components/Header'
+import { NextAuthProvider } from 'src/components/Providers'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -48,9 +48,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <NextAuthProvider>
-          <div className="max-w-3xl mx-auto p-4">
+          <div className="mx-auto">
             <Header />
-            <div className="mt-8">{children}</div>
+            <div className="mr-20 ml-20 mt-10">{children}</div>
           </div>
         </NextAuthProvider>
       </body>

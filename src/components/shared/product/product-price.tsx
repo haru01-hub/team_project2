@@ -1,3 +1,7 @@
+// import { cn } from '@/lib/utils'
+
+import { cn } from 'src/lib/utils'
+
 const ProductPrice = ({
   value,
   className,
@@ -9,9 +13,8 @@ const ProductPrice = ({
   const [intValue, floatValue] = stringValue.includes('.')
     ? stringValue.split('.')
     : [stringValue, '']
-
   return (
-    <p className={`text-2xl ${className || ''}`}>
+    <p className={cn('text-2xl', className)}>
       <span className="text-xs align-super">$</span>
       {intValue}
       <span className="text-xs align-super">{floatValue}</span>

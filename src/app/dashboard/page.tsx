@@ -1,4 +1,4 @@
-import { auth } from '@/src/auth'
+import { auth } from 'src/auth'
 export default async function DashboardPage() {
   const session = await auth()
   if (!session) return <div className="text-2xl">Not authenticated...</div>

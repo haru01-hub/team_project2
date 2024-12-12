@@ -3,7 +3,7 @@
 export default async function Home() {
   // const user = await currentUser()
   return (
-    <div className="flex">
+    <div className="flex ml-40">
       <img
         className="bg-gray-400 hover:bg-cyan-200 mr-2 mt-20 ml-30"
         width={300}

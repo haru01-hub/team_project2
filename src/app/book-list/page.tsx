@@ -1,17 +1,19 @@
-import Link from 'next/link'
+//src/app/book-list
+'use client'
+
+import SelectedBooksPage from 'src/components/SelectedBooksPage'
 
 export default async function BookRank() {
   return (
     <div>
-      <div
+      <SelectedBooksPage />
+      {/* <div
         className="ml-50 p-2 border-2 rounded-3xl mb-5 text-right"
         style={{
           width: '350px',
           height: '50px',
         }}
-      >
-        🔍
-      </div>
+      ></div>
       <div className="flex">
         <Link href="" className="text-cyan-600 hover:text-cyan-300">
           <h3 className="text-2xl text-left font-bold mb-2">Fantasy ︱ </h3>
@@ -87,7 +89,7 @@ export default async function BookRank() {
           <br />
         </Link>
       </div>
-      <p className="text-center">도서 목록이 보여질 예정입니다.</p>
+      <p className="text-center">도서 목록이 보여질 예정입니다.</p> */}
     </div>
   )
 }

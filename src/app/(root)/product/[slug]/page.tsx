@@ -1,21 +1,21 @@
-import React from 'react'
-
-export default function ProductPage() {
-  return <div>ProductPage</div>
-}
-
-/*
-//price,images는 빼고 책으로 넣을 예정
+// import { Badge } from 'lucide-react'
+import { Badge } from 'lucide-react'
 import { notFound } from 'next/navigation'
+import ProductImages from 'src/components/shared/product/product-images'
+import ProductPrice from 'src/components/shared/product/product-price'
+import { Button } from 'src/components/ui/button'
+import { Card, CardContent } from 'src/components/ui/card'
+import { getProductBySlug } from 'src/lib/actions/product.actions'
+import { APP_NAME } from 'src/lib/constants'
+// 또는
 
-//import ProductImages from '@/components/shared/product/product-images'
-//import ProductPrice from '@/components/shared/product/product-price'
-
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent } from '@/components/ui/card'
-//import { getProductBySlug } from '@/lib/actions/product.actions'
-import { APP_NAME } from '@/libs/constants'
-import { Button } from '@/components/ui/button'
+// import ProductImages from '@/components/shared/product/product-images'
+// import ProductPrice from '@/components/shared/product/product-price'
+// import { Badge } from '@/components/ui/badge'
+// import { Card, CardContent } from '@/components/ui/card'
+// import { getProductBySlug } from '@/lib/actions/product.actions'
+// import { APP_NAME } from '@/lib/constants'
+// import { Button } from '@/components/ui/button'
 
 export async function generateMetadata({
   params,
@@ -75,17 +75,6 @@ const ProductDetails = async ({
             </div>
           </div>
           <div>
-            <AddToCart
-              cart={cart}
-              item={{
-                productId: product.id,
-                name: product.name,
-                slug: product.slug,
-                price: round2(product.price),
-                qty: 1,
-                image: product.images![0],
-              }}
-            />
             <Card>
               <CardContent className="p-4">
                 <div className="mb-2 flex justify-between">
@@ -97,9 +86,10 @@ const ProductDetails = async ({
                 <div className="mb-2 flex justify-between">
                   <div>Status</div>
                   {product.stock > 0 ? (
-                    <Badge variant="outline">In stock</Badge>
+                    <Badge fontVariant="outline">In stock</Badge>
                   ) : (
-                    <Badge variant="destructive">Unavailable</Badge>
+                    //lesson9인데 밑에 Badge에서 뭔 문제 발생해서 fontVariant로 변경해놓음! 원래 varient였을 걸?
+                    <Badge fontVariant="destructive">Unavailable</Badge>
                   )}
                 </div>
                 {product.stock !== 0 && (
@@ -117,4 +107,3 @@ const ProductDetails = async ({
 }
 
 export default ProductDetails
-*/

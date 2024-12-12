@@ -1,69 +1,6 @@
-// // AddTopic Component
-//'use client'
-// import { useRouter } from 'next/navigation'
-// import { useState } from 'react'
-
-// export function AddTopic() {
-//   const [title, setTitle] = useState('')
-//   const [description, setDescription] = useState('')
-//   const router = useRouter()
-
-//   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-//     e.preventDefault()
-//     if (!title || !description) {
-//       alert('Title and description are required.')
-//       return
-//     }
-//     try {
-//       const res = await fetch('/api/topics', {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({ title, description }),
-//       })
-//       if (res.ok) {
-//         router.push('/write')
-//         router.refresh()
-//       } else {
-//         throw new Error('Failed to create a topic')
-//       }
-//     } catch (error) {
-//       console.error(error)
-//     }
-//   }
-
-//   return (
-//     <form className="flex flex-col gap-3 w-full mt-5" onSubmit={handleSubmit}>
-//       <input
-//         className="border border-slate-500 p-4 w-full"
-//         type="text"
-//         placeholder="Title"
-//         onChange={(e) => setTitle(e.target.value)}
-//         value={title}
-//       />
-//       <textarea
-//         className="border border-slate-500 p-4 w-full"
-//         placeholder="Description"
-//         onChange={(e) => setDescription(e.target.value)}
-//         value={description}
-//         rows={4}
-//       />
-//       <div className="flex justify-end">
-//         <button
-//           className="bg-green-800 text-white font-bold px-6 py-3 w-fit rounded-md"
-//           type="submit"
-//         >
-//           Add Write
-//         </button>
-//       </div>
-//     </form>
-//   )
-// }
-
-// DashboardPage Component
 import Link from 'next/link'
 import Image from 'next/image'
+import AddTopicPage from '../addTopic/page'
 
 export default function MyprofilePage() {
   return (
@@ -81,14 +18,6 @@ export default function MyprofilePage() {
             height={90}
           />
         </div>
-        <div>
-          <Link href="/profile" className="ml-5 underline hover:text-gray-400">
-            ▶ 내 프로필 보기
-          </Link>
-        </div>
-        <p className="ml-20 text-center font-bold">
-          ❝ 모든 인간의 삶은 각자 자신에게로 이르는 길이다. ❞<br />- 데미안
-        </p>
       </div>
       <div
         className="bg-gray-300 mt-5 rounded-3xl"
@@ -108,7 +37,7 @@ export default function MyprofilePage() {
                 이용내역
               </p>
             </Link>
-            <Link href="/purchase">
+            <Link href="/product">
               <p className="p-3 bg-yellow-100 rounded-3xl mt-5 hover:bg-blue-200">
                 포인트사용하기
               </p>
@@ -145,7 +74,7 @@ export default function MyprofilePage() {
         </div>
 
         <div className="ml-10 w-3/4 mt-5">
-          {/* <AddTopic /> */}
+          <AddTopicPage />
           <div className="flex justify-between mt-1">
             <Link href="/write" className="underline hover:text-gray-400">
               ▶ 작성된 독후감 보기
